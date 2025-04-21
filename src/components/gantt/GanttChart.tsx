@@ -139,9 +139,9 @@ const GanttChart = () => {
       
       {/* Goals and Timeline Labels */}
       <div className="flex border-b">
-        {/* Goals column label */}
+        {/* Left goals list column - no title */}
         <div className="bg-gray-50 min-w-[280px] max-w-[350px] w-[30%] py-3 px-4 font-medium text-gray-700 text-sm border-r">
-          Goals
+          {/* Removed "Goals" title here as requested */}
         </div>
         
         {/* Timeline area */}
@@ -151,6 +151,7 @@ const GanttChart = () => {
             timeUnit={timeUnit}
             startDate={startDate}
             endDate={endDate}
+            hideDaysHeader
           />
         </div>
       </div>

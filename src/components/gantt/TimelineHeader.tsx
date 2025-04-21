@@ -6,9 +6,10 @@ interface TimelineHeaderProps {
   timeUnit: TimeUnit;
   startDate: Date;
   endDate: Date;
+  hideDaysHeader?: boolean;
 }
 
-const TimelineHeader = ({ timeUnit, startDate, endDate }: TimelineHeaderProps) => {
+const TimelineHeader = ({ timeUnit, startDate, endDate, hideDaysHeader = false }: TimelineHeaderProps) => {
   const renderMonthsHeader = () => {
     const months = eachMonthOfInterval({ start: startDate, end: endDate });
     
@@ -72,8 +73,11 @@ const TimelineHeader = ({ timeUnit, startDate, endDate }: TimelineHeaderProps) =
     );
   };
 
-  // Add a day header for more precise date indicators
+  // Add a day header for more precise date indicators if not hidden
   const renderDaysHeader = () => {
+    if (hideDaysHeader) {
+      return null;
+    }
     const daysArray = [];
     let currentDate = new Date(startDate);
     
@@ -108,7 +112,7 @@ const TimelineHeader = ({ timeUnit, startDate, endDate }: TimelineHeaderProps) =
   return (
     <div className="w-full select-none">
       {timeUnit === "months" ? renderMonthsHeader() : renderWeeksHeader()}
-      {renderDaysHeader()} {/* Always show days for more precise reference */}
+      {renderDaysHeader()} {/* Show days if not hidden */}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -79,7 +80,7 @@ const GanttChart = () => {
   };
 
   const goalsCount = goals.reduce((acc, goal) => acc + 1 + (goal.expanded ? goal.milestones.length : 0), 0);
-  const rowHeight = 32;
+  const rowHeight = 48;
   const timelineHeight = Math.max(400, goalsCount * rowHeight);
 
   return (
@@ -128,6 +129,7 @@ const GanttChart = () => {
       
       <div className="flex border-b">
         <div className="bg-gray-50 min-w-[280px] max-w-[350px] w-[30%] py-3 px-4 font-medium text-gray-700 text-sm border-r">
+          {/* Removed "Goals" title as requested */}
         </div>
         
         <div className="flex-1 bg-gray-50">
@@ -135,7 +137,7 @@ const GanttChart = () => {
             timeUnit={timeUnit}
             startDate={startDate}
             endDate={endDate}
-            hideDaysHeader
+            hideDaysHeader={true} /* Hide day header as requested */
           />
         </div>
       </div>
@@ -154,6 +156,7 @@ const GanttChart = () => {
                   timeUnit={timeUnit}
                   startDate={startDate}
                   endDate={endDate}
+                  rowHeight={rowHeight}
                 />
               </div>
             </div>
@@ -165,3 +168,4 @@ const GanttChart = () => {
 };
 
 export default GanttChart;
+

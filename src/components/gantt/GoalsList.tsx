@@ -4,11 +4,11 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { ChevronDown, ChevronRight, CheckCircle } from "lucide-react";
 import { format } from "date-fns";
 
-// Utility to get color class for the milestone progress badge
+// Utility to get color class for the progress badge
 const getProgressBadgeColor = (progress: number) => {
-  if (progress <= 33) return "bg-[#ea384c] text-white";
-  if (progress <= 80) return "bg-[#0EA5E9] text-white";
-  return "bg-[#F2FCE2] text-green-700 border border-green-400";
+  if (progress <= 33) return "bg-red-500 text-white";
+  if (progress <= 80) return "bg-blue-500 text-white";
+  return "bg-green-500 text-white";
 };
 
 interface GoalsListProps {
@@ -29,7 +29,7 @@ const GoalsList = ({ goals, onToggleExpand }: GoalsListProps) => {
     <div className="min-h-[400px]">
       {goals.map((goal) => (
         <div key={goal.id}>
-          {/* Goal row (no progress badge or date) */}
+          {/* Goal row with progress badge */}
           <div 
             className="flex items-center border-b px-4 py-3 hover:bg-gray-50 cursor-pointer"
             onClick={() => onToggleExpand(goal.id)}
@@ -45,20 +45,36 @@ const GoalsList = ({ goals, onToggleExpand }: GoalsListProps) => {
               <AvatarImage src={goal.owner.avatar} alt={goal.owner.name} />
               <AvatarFallback>{getInitials(goal.owner.name)}</AvatarFallback>
             </Avatar>
-            <div className="flex-1">
-              <span className="text-sm font-medium">{goal.title}</span>
+            <div className="flex-1 min-w-0">
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium truncate">{goal.title}</span>
+                <span className={`ml-2 text-xs font-semibold px-2 py-1 rounded-full ${getProgressBadgeColor(goal.progress)}`}>
+                  {goal.progress}%
+                </span>
+              </div>
+              <div className="flex text-xs text-gray-500 mt-1">
+                <span>{format(goal.startDate, "MMM d")} - {format(goal.endDate, "MMM d, yyyy")}</span>
+              </div>
             </div>
           </div>
 
-          {/* Milestone rows, without progress indicator and start-end date */}
+          {/* Milestone rows with progress indicators */}
           {goal.expanded && goal.milestones.map((milestone) => (
             <div 
               key={milestone.id}
-              className="flex items-center border-b px-4 py-3 pl-10 bg-gray-50"
+              className="flex items-center border-b px-4 py-3 pl-10 bg-gray-50 hover:bg-gray-100"
             >
               <CheckCircle className={`h-4 w-4 ${milestone.progress === 100 ? 'text-green-500' : 'text-gray-300'} mr-3`} />
-              <div className="flex-1">
-                <span className="text-sm">{milestone.title}</span>
+              <div className="flex-1 min-w-0">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm truncate">{milestone.title}</span>
+                  <span className={`ml-2 text-xs font-semibold px-2 py-0.5 rounded-full ${getProgressBadgeColor(milestone.progress)}`}>
+                    {milestone.progress}%
+                  </span>
+                </div>
+                <div className="flex text-xs text-gray-500 mt-1">
+                  <span>{format(milestone.startDate, "MMM d")} - {format(milestone.endDate, "MMM d, yyyy")}</span>
+                </div>
               </div>
             </div>
           ))}
@@ -69,4 +85,3 @@ const GoalsList = ({ goals, onToggleExpand }: GoalsListProps) => {
 };
 
 export default GoalsList;
-

@@ -1,5 +1,5 @@
 
-import { format, eachWeekOfInterval, eachMonthOfInterval, startOfMonth, endOfMonth, addDays } from "date-fns";
+import { format, eachWeekOfInterval, eachMonthOfInterval, startOfMonth, endOfMonth, addDays, startOfWeek, endOfWeek, isToday } from "date-fns";
 import { TimeUnit } from "@/types/gantt";
 
 interface TimelineHeaderProps {
@@ -23,10 +23,16 @@ const TimelineHeader = ({ timeUnit, startDate, endDate }: TimelineHeaderProps) =
           // Each cell width is calculated based on total days
           const cellWidth = `${daysInMonth * 30}px`;
           
+          // Check if this month contains today
+          const today = new Date();
+          const containsToday = 
+            today >= monthStart && 
+            today <= monthEnd;
+          
           return (
             <div 
               key={month.toString()} 
-              className="text-center py-2 font-medium text-gray-600 bg-gray-100"
+              className={`text-center py-2 font-medium ${containsToday ? 'bg-blue-50 text-blue-700' : 'bg-gray-100 text-gray-600'}`}
               style={{ width: cellWidth, minWidth: cellWidth }}
             >
               {format(month, "MMMM yyyy")}
@@ -45,12 +51,17 @@ const TimelineHeader = ({ timeUnit, startDate, endDate }: TimelineHeaderProps) =
     
     return (
       <div className="flex border-b">
-        {weeks.map((week, index) => {
-          const weekEnd = addDays(week, 6);
+        {weeks.map((week) => {
+          const weekEnd = endOfWeek(week, { weekStartsOn: 1 });
+          const today = new Date();
+          const containsToday = today >= week && today <= weekEnd;
+          
           return (
             <div 
               key={week.toString()} 
-              className="text-center py-2 font-medium text-gray-600 border-r last:border-r-0 bg-gray-100"
+              className={`text-center py-2 font-medium border-r last:border-r-0 ${
+                containsToday ? 'bg-blue-50 text-blue-700' : 'bg-gray-100 text-gray-600'
+              }`}
               style={{ width: "210px", minWidth: "210px" }} // 7 days * 30px
             >
               {format(week, "MMM d")} - {format(weekEnd, "MMM d")}
@@ -61,9 +72,43 @@ const TimelineHeader = ({ timeUnit, startDate, endDate }: TimelineHeaderProps) =
     );
   };
 
+  // Add a day header for more precise date indicators
+  const renderDaysHeader = () => {
+    const daysArray = [];
+    let currentDate = new Date(startDate);
+    
+    while (currentDate <= endDate) {
+      daysArray.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    
+    return (
+      <div className="flex border-b">
+        {daysArray.map((day) => {
+          const isTodayDate = isToday(day);
+          const isWeekend = day.getDay() === 0 || day.getDay() === 6;
+          
+          return (
+            <div 
+              key={day.toString()}
+              className={`text-center py-1 text-xs font-medium border-r last:border-r-0 ${
+                isTodayDate ? 'bg-blue-100 text-blue-700 font-bold' : 
+                isWeekend ? 'bg-gray-50 text-gray-400' : 'text-gray-500'
+              }`}
+              style={{ width: "30px", minWidth: "30px" }}
+            >
+              {format(day, "d")}
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   return (
-    <div className="w-full overflow-x-auto">
+    <div className="w-full select-none">
       {timeUnit === "months" ? renderMonthsHeader() : renderWeeksHeader()}
+      {renderDaysHeader()} {/* Always show days for more precise reference */}
     </div>
   );
 };

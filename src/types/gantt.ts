@@ -6,6 +6,7 @@ export interface Milestone {
   title: string;
   startDate: Date;
   endDate: Date;
+  progress?: number; // Added progress property as optional
 }
 
 export interface Goal {
@@ -19,4 +20,5 @@ export interface Goal {
   endDate: Date;
   expanded: boolean;
   milestones: Milestone[];
+  progress?: number; // Added progress property as optional
 }

@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,7 +15,6 @@ const GanttChart = () => {
   const timelineRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Calculate dates based on goals data
   const calculateDateRange = () => {
     let minDate = new Date();
     let maxDate = new Date();
@@ -31,7 +29,6 @@ const GanttChart = () => {
       });
     });
     
-    // Add padding (2 weeks before and after)
     const paddedMinDate = new Date(minDate);
     paddedMinDate.setDate(paddedMinDate.getDate() - 14);
     
@@ -43,18 +40,13 @@ const GanttChart = () => {
   
   const { startDate, endDate } = calculateDateRange();
   
-  // Scroll to center of timeline (where today is) on initial render
   useEffect(() => {
     if (timelineRef.current && containerRef.current) {
-      // Calculate where "today" is in the timeline
       const today = new Date();
       const totalDays = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
       const daysSinceStart = Math.round((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
       
-      // Calculate the position as a percentage and scroll there
       const scrollPosition = (daysSinceStart / totalDays) * timelineRef.current.scrollWidth;
-      
-      // Center "today" in the viewport
       const centerPosition = Math.max(0, scrollPosition - containerRef.current.clientWidth / 2);
       timelineRef.current.scrollLeft = centerPosition;
     }
@@ -81,20 +73,17 @@ const GanttChart = () => {
       const totalDays = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
       const daysSinceStart = Math.round((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
       
-      // Calculate the position as a percentage and scroll there
       const scrollPosition = (daysSinceStart / totalDays) * timelineRef.current.scrollWidth;
       timelineRef.current.scrollTo({ left: scrollPosition - 200, behavior: "smooth" });
     }
   };
 
-  // Ensure the grid height exactly matches the list height for alignment
   const goalsCount = goals.reduce((acc, goal) => acc + 1 + (goal.expanded ? goal.milestones.length : 0), 0);
-  const rowHeight = 64; // px (same as each row in the list/grid)
-  const timelineHeight = Math.max(400, goalsCount * rowHeight); // minimum height of 400px
+  const rowHeight = 64;
+  const timelineHeight = Math.max(400, goalsCount * rowHeight);
 
   return (
     <div className="border rounded-lg bg-white overflow-hidden">
-      {/* Header with controls */}
       <div className="p-4 border-b flex flex-wrap justify-between items-center gap-4">
         <Tabs
           defaultValue="weeks"
@@ -137,14 +126,11 @@ const GanttChart = () => {
         </div>
       </div>
       
-      {/* Main content area with fixed height */}
-      <div className="flex w-full" style={{height: `${timelineHeight}px`}}>
-        {/* Left - Fixed Goals List */}
+      <div className="flex w-full pt-[56px]" style={{height: `${timelineHeight}px`}}>
         <div className="bg-white border-r min-w-[280px] max-w-[350px] w-[30%] h-full sticky left-0 z-10 overflow-y-auto">
           <GoalsList goals={goals} onToggleExpand={toggleGoalExpanded} />
         </div>
         
-        {/* Right - Timeline container */}
         <div 
           ref={containerRef}
           className="flex-1 overflow-hidden"
@@ -157,7 +143,6 @@ const GanttChart = () => {
             }}
           >
             <div className="min-w-[900px]">
-              {/* Timeline header that stays fixed at top while vertical scrolling */}
               <div className="sticky top-0 z-10 bg-white shadow-sm">
                 <TimelineHeader
                   timeUnit={timeUnit}
@@ -166,7 +151,6 @@ const GanttChart = () => {
                 />
               </div>
               
-              {/* Timeline grid that scrolls with the content */}
               <div className="relative">
                 <TimelineGrid
                   goals={goals}

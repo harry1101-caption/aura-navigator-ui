@@ -1,7 +1,6 @@
 
 import { Goal } from "@/types/gantt";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Progress } from "@/components/ui/progress";
 import { ChevronDown, ChevronRight, CheckCircle } from "lucide-react";
 import { format } from "date-fns";
 
@@ -50,8 +49,8 @@ const GoalsList = ({ goals, onToggleExpand }: GoalsListProps) => {
               <span className="text-sm font-medium">{goal.title}</span>
             </div>
           </div>
-          
-          {/* Milestone rows */}
+
+          {/* Milestone rows, without progress indicator and start-end date */}
           {goal.expanded && goal.milestones.map((milestone) => (
             <div 
               key={milestone.id}
@@ -59,16 +58,7 @@ const GoalsList = ({ goals, onToggleExpand }: GoalsListProps) => {
             >
               <CheckCircle className={`h-4 w-4 ${milestone.progress === 100 ? 'text-green-500' : 'text-gray-300'} mr-3`} />
               <div className="flex-1">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm">{milestone.title}</span>
-                  <span className={`text-xs rounded-full px-2 py-0.5 ${getProgressBadgeColor(milestone.progress)}`}>
-                    {milestone.progress}%
-                  </span>
-                </div>
-                <Progress value={milestone.progress} className="h-1.5" />
-                <div className="text-xs text-gray-500 mt-1">
-                  {format(milestone.startDate, "MMM d")} - {format(milestone.endDate, "MMM d, yyyy")}
-                </div>
+                <span className="text-sm">{milestone.title}</span>
               </div>
             </div>
           ))}

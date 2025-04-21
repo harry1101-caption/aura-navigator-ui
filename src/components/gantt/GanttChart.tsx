@@ -1,7 +1,6 @@
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import TimelineHeader from "./TimelineHeader";
 import GoalsList from "./GoalsList";
 import TimelineGrid from "./TimelineGrid";
@@ -11,6 +10,7 @@ import { mockGoals } from "./mock-data";
 const GanttChart = () => {
   const [timeUnit, setTimeUnit] = useState<TimeUnit>("weeks");
   const [goals, setGoals] = useState<Goal[]>(mockGoals);
+  const containerRef = useRef<HTMLDivElement>(null);
   
   const toggleGoalExpanded = (goalId: string) => {
     setGoals(goals.map(goal => 
@@ -44,24 +44,32 @@ const GanttChart = () => {
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <div className="flex-1 min-w-0 w-full sm:w-auto sm:ml-4">
-          <TimelineHeader timeUnit={timeUnit} startDate={startDate} endDate={endDate} />
-        </div>
       </div>
       
       <div className="flex">
+        {/* Goals list - fixed width, doesn't scroll horizontally */}
         <div className="w-1/3 min-w-[350px] border-r">
           <GoalsList goals={goals} onToggleExpand={toggleGoalExpanded} />
         </div>
-        <div className="w-2/3 overflow-hidden">
-          <ScrollArea className="h-full" orientation="horizontal">
+        
+        {/* Timeline section - scrolls horizontally */}
+        <div className="w-2/3 overflow-hidden flex flex-col">
+          {/* Timeline header - scrolls with the grid */}
+          <div className="overflow-x-auto" ref={containerRef}>
+            <TimelineHeader 
+              timeUnit={timeUnit} 
+              startDate={startDate} 
+              endDate={endDate} 
+            />
+            
+            {/* Timeline grid - scrolls with the header */}
             <TimelineGrid 
               goals={goals} 
               timeUnit={timeUnit} 
               startDate={startDate} 
               endDate={endDate} 
             />
-          </ScrollArea>
+          </div>
         </div>
       </div>
     </div>

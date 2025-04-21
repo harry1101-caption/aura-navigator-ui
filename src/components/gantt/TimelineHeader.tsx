@@ -62,7 +62,7 @@ const TimelineHeader = ({ timeUnit, startDate, endDate }: TimelineHeaderProps) =
   };
 
   return (
-    <div className="w-full overflow-x-auto">
+    <div className="sticky top-0 z-10">
       {timeUnit === "months" ? renderMonthsHeader() : renderWeeksHeader()}
     </div>
   );

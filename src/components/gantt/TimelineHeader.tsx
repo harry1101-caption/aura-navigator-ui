@@ -20,16 +20,16 @@ const TimelineHeader = ({ timeUnit, startDate, endDate }: TimelineHeaderProps) =
           const monthEnd = index === months.length - 1 ? endDate : endOfMonth(month);
           const daysInMonth = Math.round((monthEnd.getTime() - monthStart.getTime()) / (1000 * 60 * 60 * 24)) + 1;
           
-          // Each day is approximately 30px wide
-          const widthPercentage = `${daysInMonth * 30}px`;
+          // Each cell width is calculated based on total days
+          const cellWidth = `${daysInMonth * 30}px`;
           
           return (
             <div 
               key={month.toString()} 
               className="text-center py-2 font-medium text-gray-600 bg-gray-100"
-              style={{ width: widthPercentage, minWidth: widthPercentage }}
+              style={{ width: cellWidth, minWidth: cellWidth }}
             >
-              {format(month, "MMMM")}
+              {format(month, "MMMM yyyy")}
             </div>
           );
         })}
@@ -62,7 +62,7 @@ const TimelineHeader = ({ timeUnit, startDate, endDate }: TimelineHeaderProps) =
   };
 
   return (
-    <div>
+    <div className="w-full overflow-x-auto">
       {timeUnit === "months" ? renderMonthsHeader() : renderWeeksHeader()}
     </div>
   );

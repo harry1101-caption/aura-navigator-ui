@@ -19,43 +19,45 @@ interface TimelineGridProps {
 const TimelineGrid = ({ goals, timeUnit, startDate, endDate }: TimelineGridProps) => {
   // Generate all days in the range for positioning
   const allDays = eachDayOfInterval({ start: startDate, end: endDate });
+  const totalDays = differenceInDays(endDate, startDate) + 1;
   
   // Calculate position for an item (goal or milestone)
   const calculateItemPosition = (itemStart: Date, itemEnd: Date) => {
-    const totalDays = differenceInDays(endDate, startDate) + 1;
     const itemStartDays = Math.max(0, differenceInDays(itemStart, startDate));
     const itemDuration = Math.min(
       differenceInDays(itemEnd, itemStart) + 1,
       differenceInDays(endDate, itemStart) + 1
     );
     
-    const leftOffset = (itemStartDays / totalDays) * 100;
-    const widthPercentage = (itemDuration / totalDays) * 100;
+    // Calculate position as exact pixel values to ensure alignment with header
+    const dayWidth = 30; // Each day is 30px wide
+    const left = itemStartDays * dayWidth;
+    const width = itemDuration * dayWidth;
     
     return {
-      left: `${leftOffset}%`,
-      width: `${widthPercentage}%`,
+      left: `${left}px`,
+      width: `${width}px`,
     };
   };
 
   // Function to get the color based on progress
   const getProgressColor = (progress: number) => {
-    if (progress === 100) return "bg-blue-500";
-    if (progress === 0) return "bg-red-500";
-    return "bg-orange-500";
+    if (progress >= 80) return "bg-green-500";
+    if (progress >= 33) return "bg-blue-500";
+    return "bg-red-500";
   };
 
   return (
-    <div className="relative">
+    <div className="relative" style={{ width: `${totalDays * 30}px`, minWidth: '100%' }}>
       {/* Time grid (vertical lines) */}
       <div className="absolute inset-0 flex">
         {allDays.map((day, index) => (
           <div 
             key={day.toISOString()} 
-            className={`flex-1 border-r last:border-r-0 ${isFirstDayOfMonth(day) ? 'border-r-2 border-gray-300' : 'border-gray-100'}`}
+            className={`h-full w-[30px] ${isFirstDayOfMonth(day) ? 'border-l-2 border-gray-300' : 'border-l border-gray-100'}`}
           >
-            {isFirstDayOfMonth(day) && (
-              <div className="absolute top-0 text-xs text-gray-500" style={{ left: `${(index / allDays.length) * 100}%`, transform: 'translateX(-50%)' }}>
+            {isFirstDayOfMonth(day) && timeUnit === "weeks" && (
+              <div className="absolute top-0 text-xs text-gray-500" style={{ left: `${index * 30}px` }}>
                 {format(day, "MMM")}
               </div>
             )}

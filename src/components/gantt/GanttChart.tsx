@@ -66,4 +66,3 @@ const GanttChart = () => {
 };
 
 export default GanttChart;
-

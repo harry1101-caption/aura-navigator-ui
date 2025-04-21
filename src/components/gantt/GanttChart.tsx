@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
+import { Calendar } from "lucide-react";
 import TimelineHeader from "./TimelineHeader";
 import GoalsList from "./GoalsList";
 import TimelineGrid from "./TimelineGrid";
@@ -67,13 +67,6 @@ const GanttChart = () => {
     ));
   };
 
-  const scrollTimeline = (direction: "left" | "right") => {
-    if (timelineRef.current) {
-      const scrollAmount = direction === "left" ? -300 : 300;
-      timelineRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
-    }
-  };
-
   const scrollToToday = () => {
     if (timelineRef.current) {
       const today = new Date();
@@ -93,11 +86,7 @@ const GanttChart = () => {
 
   return (
     <div className="border rounded-lg bg-white overflow-hidden mt-4">
-      {/* Header with controls - controls removed */}
-      <div className="p-4 border-b flex flex-wrap justify-between items-center gap-4">
-        {/* NO TABS, NO TODAY BUTTON */}
-      </div>
-
+      {/* Removed empty header with controls to eliminate top spacing */}
       {/* Goals and Timeline Labels */}
       <div className="flex border-b">
         {/* Left goals list column - no title */}
@@ -167,15 +156,6 @@ const GanttChart = () => {
                   <TabsTrigger value="months">Months</TabsTrigger>
                 </TabsList>
               </Tabs>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={scrollToToday}
-                className="ml-2"
-              >
-                <Calendar className="h-4 w-4 mr-1" />
-                <span className="hidden sm:inline">Today</span>
-              </Button>
             </div>
             {/* END Floating controls */}
           </div>
@@ -186,3 +166,4 @@ const GanttChart = () => {
 };
 
 export default GanttChart;
+

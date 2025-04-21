@@ -1,8 +1,6 @@
 
 import { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar } from "lucide-react";
 import TimelineHeader from "./TimelineHeader";
 import GoalsList from "./GoalsList";
 import TimelineGrid from "./TimelineGrid";
@@ -67,17 +65,7 @@ const GanttChart = () => {
     ));
   };
 
-  const scrollToToday = () => {
-    if (timelineRef.current) {
-      const today = new Date();
-      const totalDays = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-      const daysSinceStart = Math.round((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-
-      // Calculate the position as a percentage and scroll there
-      const scrollPosition = (daysSinceStart / totalDays) * timelineRef.current.scrollWidth;
-      timelineRef.current.scrollTo({ left: scrollPosition - 200, behavior: "smooth" });
-    }
-  };
+  // Remove the Today button functionality as requested
 
   // Ensure the grid height exactly matches the list height for alignment
   const goalsCount = goals.reduce((acc, goal) => acc + 1 + (goal.expanded ? goal.milestones.length : 0), 0);
@@ -86,17 +74,18 @@ const GanttChart = () => {
 
   return (
     <div className="border rounded-lg bg-white overflow-hidden mt-4">
-      {/* Removed empty header with controls to eliminate top spacing */}
+      {/* Remove top white spacing, so no extra margin/padding here */}
+
       {/* Goals and Timeline Labels */}
       <div className="flex border-b">
         {/* Left goals list column - no title */}
-        <div className="bg-gray-50 min-w-[280px] max-w-[350px] w-[30%] py-3 px-4 font-medium text-gray-700 text-sm border-r">
+        <div className="bg-gray-50 min-w-[352px] max-w-[352px] w-[352px] py-3 px-4 font-medium text-gray-700 text-sm border-r">
           {/* Removed "Goals" title here as requested */}
         </div>
 
         {/* Timeline area */}
         <div className="flex-1 bg-gray-50">
-          {/* Timeline header */}
+          {/* Timeline header with hidden days header */}
           <TimelineHeader
             timeUnit={timeUnit}
             startDate={startDate}
@@ -109,7 +98,7 @@ const GanttChart = () => {
       {/* Main content area with fixed height */}
       <div className="flex w-full relative" style={{ height: `${timelineHeight}px` }}>
         {/* Left - Fixed Goals List */}
-        <div className="bg-white border-r min-w-[280px] max-w-[350px] w-[30%] h-full sticky left-0 z-10 overflow-y-auto">
+        <div className="bg-white border-r min-w-[352px] max-w-[352px] w-[352px] h-full sticky left-0 z-10 overflow-y-auto">
           <GoalsList goals={goals} onToggleExpand={toggleGoalExpanded} />
         </div>
 
@@ -138,7 +127,7 @@ const GanttChart = () => {
                 />
               </div>
             </div>
-            {/* Floating bottom-right controls */}
+            {/* Floating bottom-right controls: Tabs Weeks/Months */}
             <div
               className="fixed z-20 flex flex-row items-center gap-2 p-2 rounded-lg bg-white/90 border shadow-xl"
               style={{
@@ -157,7 +146,6 @@ const GanttChart = () => {
                 </TabsList>
               </Tabs>
             </div>
-            {/* END Floating controls */}
           </div>
         </div>
       </div>

@@ -30,7 +30,8 @@ const TimelineGrid = ({ goals, timeUnit, startDate, endDate }: TimelineGridProps
     );
     const dayWidth = 30; // Each day is 30px wide
     const left = itemStartDays * dayWidth;
-    const width = itemDuration * dayWidth;
+    const width = Math.max(itemDuration * dayWidth, 30); // Minimum width of 30px for visibility
+    
     return {
       left: `${left}px`,
       width: `${width}px`,
@@ -42,7 +43,7 @@ const TimelineGrid = ({ goals, timeUnit, startDate, endDate }: TimelineGridProps
   const milestoneColor = "bg-gray-400";
 
   return (
-    <div className="relative" style={{ width: `${totalDays * 30}px`, height: "100%" }}>
+    <div className="relative" style={{ width: `${totalDays * 30}px`, minHeight: "400px" }}>
       {/* Time grid (vertical lines) */}
       <div className="absolute inset-0 flex">
         {allDays.map((day, index) => {
@@ -65,6 +66,7 @@ const TimelineGrid = ({ goals, timeUnit, startDate, endDate }: TimelineGridProps
           );
         })}
       </div>
+      
       {/* Today indicator */}
       {allDays.some(day => isToday(day)) && (
         <div 
@@ -75,9 +77,10 @@ const TimelineGrid = ({ goals, timeUnit, startDate, endDate }: TimelineGridProps
           }}
         />
       )}
+      
       {/* Goals and milestones as colored bars */}
-      <div className="relative">
-        {goals.map((goal) => (
+      <div className="relative w-full">
+        {goals.map((goal, goalIndex) => (
           <div key={goal.id} className="relative">
             {/* Goal bar */}
             <div className="h-16 relative">
@@ -90,20 +93,20 @@ const TimelineGrid = ({ goals, timeUnit, startDate, endDate }: TimelineGridProps
                 </div>
               </div>
             </div>
+            
             {/* Milestone bars (only if goal is expanded) */}
-            {goal.expanded &&
-              goal.milestones.map((milestone) => (
-                <div key={milestone.id} className="h-16 relative">
-                  <div
-                    className={`absolute h-6 mt-5 rounded-md ${milestoneColor} opacity-90 hover:opacity-100 transition-opacity shadow-sm`}
-                    style={calculateItemPosition(milestone.startDate, milestone.endDate)}
-                  >
-                    <div className="absolute inset-0 flex items-center px-2 text-white text-xs font-medium overflow-hidden">
-                      <span className="truncate">{milestone.title}</span>
-                    </div>
+            {goal.expanded && goal.milestones.map((milestone, milestoneIndex) => (
+              <div key={milestone.id} className="h-16 relative">
+                <div
+                  className={`absolute h-6 mt-5 rounded-md ${milestoneColor} opacity-90 hover:opacity-100 transition-opacity shadow-sm`}
+                  style={calculateItemPosition(milestone.startDate, milestone.endDate)}
+                >
+                  <div className="absolute inset-0 flex items-center px-2 text-white text-xs font-medium overflow-hidden">
+                    <span className="truncate">{milestone.title}</span>
                   </div>
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
         ))}
       </div>

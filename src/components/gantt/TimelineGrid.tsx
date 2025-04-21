@@ -48,7 +48,7 @@ const TimelineGrid = ({ goals, timeUnit, startDate, endDate }: TimelineGridProps
   };
 
   return (
-    <div className="relative" style={{ width: `${totalDays * 30}px` }}>
+    <div className="relative" style={{ width: `${totalDays * 30}px`, height: "100%" }}>
       {/* Time grid (vertical lines) */}
       <div className="absolute inset-0 flex">
         {allDays.map((day, index) => (

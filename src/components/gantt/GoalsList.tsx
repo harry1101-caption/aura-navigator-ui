@@ -5,6 +5,13 @@ import { Progress } from "@/components/ui/progress";
 import { ChevronDown, ChevronRight, CheckCircle } from "lucide-react";
 import { format } from "date-fns";
 
+// Utility to get color class for the milestone progress badge
+const getProgressBadgeColor = (progress: number) => {
+  if (progress <= 33) return "bg-[#ea384c] text-white";
+  if (progress <= 80) return "bg-[#0EA5E9] text-white";
+  return "bg-[#F2FCE2] text-green-700 border border-green-400";
+};
+
 interface GoalsListProps {
   goals: Goal[];
   onToggleExpand: (goalId: string) => void;
@@ -23,6 +30,7 @@ const GoalsList = ({ goals, onToggleExpand }: GoalsListProps) => {
     <div className="min-h-[400px]">
       {goals.map((goal) => (
         <div key={goal.id}>
+          {/* Goal row (no progress badge or date) */}
           <div 
             className="flex items-center border-b px-4 py-3 hover:bg-gray-50 cursor-pointer"
             onClick={() => onToggleExpand(goal.id)}
@@ -39,19 +47,11 @@ const GoalsList = ({ goals, onToggleExpand }: GoalsListProps) => {
               <AvatarFallback>{getInitials(goal.owner.name)}</AvatarFallback>
             </Avatar>
             <div className="flex-1">
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-sm font-medium">{goal.title}</span>
-                <span className="text-xs text-gray-500 bg-blue-100 rounded-full px-2 py-0.5">
-                  {goal.progress}%
-                </span>
-              </div>
-              <Progress value={goal.progress} className="h-1.5" />
-              <div className="text-xs text-gray-500 mt-1">
-                {format(goal.startDate, "MMM d")} - {format(goal.endDate, "MMM d, yyyy")}
-              </div>
+              <span className="text-sm font-medium">{goal.title}</span>
             </div>
           </div>
           
+          {/* Milestone rows */}
           {goal.expanded && goal.milestones.map((milestone) => (
             <div 
               key={milestone.id}
@@ -61,7 +61,7 @@ const GoalsList = ({ goals, onToggleExpand }: GoalsListProps) => {
               <div className="flex-1">
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-sm">{milestone.title}</span>
-                  <span className="text-xs text-gray-500 bg-blue-100 rounded-full px-2 py-0.5">
+                  <span className={`text-xs rounded-full px-2 py-0.5 ${getProgressBadgeColor(milestone.progress)}`}>
                     {milestone.progress}%
                   </span>
                 </div>
@@ -79,3 +79,4 @@ const GoalsList = ({ goals, onToggleExpand }: GoalsListProps) => {
 };
 
 export default GoalsList;
+

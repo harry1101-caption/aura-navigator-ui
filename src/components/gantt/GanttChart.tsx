@@ -19,25 +19,33 @@ const GanttChart = () => {
     ));
   };
 
+  const startDate = new Date(2025, 3, 1);
+  const endDate = new Date(2025, 5, 30);
+
   return (
     <div className="border rounded-lg bg-white overflow-hidden">
-      <div className="p-4 border-b flex justify-between items-center">
-        <Tabs defaultValue="weeks" className="w-auto">
+      <div className="p-4 border-b flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+        <Tabs 
+          defaultValue="weeks" 
+          className="w-auto"
+          onValueChange={(value: TimeUnit) => setTimeUnit(value)}
+        >
           <TabsList>
             <TabsTrigger 
-              value="weeks" 
-              onClick={() => setTimeUnit("weeks")}
+              value="weeks"
             >
               Weeks
             </TabsTrigger>
             <TabsTrigger 
-              value="months" 
-              onClick={() => setTimeUnit("months")}
+              value="months"
             >
               Months
             </TabsTrigger>
           </TabsList>
         </Tabs>
+        <div className="flex-1 min-w-0 w-full sm:w-auto sm:ml-4">
+          <TimelineHeader timeUnit={timeUnit} startDate={startDate} endDate={endDate} />
+        </div>
       </div>
       
       <div className="flex">
@@ -45,12 +53,11 @@ const GanttChart = () => {
           <GoalsList goals={goals} onToggleExpand={toggleGoalExpanded} />
         </div>
         <div className="w-2/3 overflow-x-auto">
-          <TimelineHeader timeUnit={timeUnit} startDate={new Date(2025, 3, 1)} endDate={new Date(2025, 5, 30)} />
           <TimelineGrid 
             goals={goals} 
             timeUnit={timeUnit} 
-            startDate={new Date(2025, 3, 1)} 
-            endDate={new Date(2025, 5, 30)} 
+            startDate={startDate} 
+            endDate={endDate} 
           />
         </div>
       </div>
@@ -59,3 +66,4 @@ const GanttChart = () => {
 };
 
 export default GanttChart;
+

@@ -16,6 +16,7 @@ const GanttChart = () => {
   const timelineRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   
+  // Calculate dates based on goals data
   const calculateDateRange = () => {
     let minDate = new Date();
     let maxDate = new Date();
@@ -30,6 +31,7 @@ const GanttChart = () => {
       });
     });
     
+    // Add padding (2 weeks before and after)
     const paddedMinDate = new Date(minDate);
     paddedMinDate.setDate(paddedMinDate.getDate() - 14);
     
@@ -41,13 +43,18 @@ const GanttChart = () => {
   
   const { startDate, endDate } = calculateDateRange();
   
+  // Scroll to center of timeline (where today is) on initial render
   useEffect(() => {
     if (timelineRef.current && containerRef.current) {
+      // Calculate where "today" is in the timeline
       const today = new Date();
       const totalDays = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
       const daysSinceStart = Math.round((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
       
+      // Calculate the position as a percentage and scroll there
       const scrollPosition = (daysSinceStart / totalDays) * timelineRef.current.scrollWidth;
+      
+      // Center "today" in the viewport
       const centerPosition = Math.max(0, scrollPosition - containerRef.current.clientWidth / 2);
       timelineRef.current.scrollLeft = centerPosition;
     }
@@ -74,17 +81,20 @@ const GanttChart = () => {
       const totalDays = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
       const daysSinceStart = Math.round((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
       
+      // Calculate the position as a percentage and scroll there
       const scrollPosition = (daysSinceStart / totalDays) * timelineRef.current.scrollWidth;
       timelineRef.current.scrollTo({ left: scrollPosition - 200, behavior: "smooth" });
     }
   };
 
+  // Ensure the grid height exactly matches the list height for alignment
   const goalsCount = goals.reduce((acc, goal) => acc + 1 + (goal.expanded ? goal.milestones.length : 0), 0);
-  const rowHeight = 48;
-  const timelineHeight = Math.max(400, goalsCount * rowHeight);
+  const rowHeight = 64; // px (same as each row in the list/grid)
+  const timelineHeight = Math.max(400, goalsCount * rowHeight); // minimum height of 400px
 
   return (
     <div className="border rounded-lg bg-white overflow-hidden mt-4">
+      {/* Header with controls */}
       <div className="p-4 border-b flex flex-wrap justify-between items-center gap-4">
         <Tabs
           defaultValue="weeks"
@@ -127,36 +137,52 @@ const GanttChart = () => {
         </div>
       </div>
       
+      {/* Goals and Timeline Labels */}
       <div className="flex border-b">
+        {/* Left goals list column - no title */}
         <div className="bg-gray-50 min-w-[280px] max-w-[350px] w-[30%] py-3 px-4 font-medium text-gray-700 text-sm border-r">
-          {/* Removed "Goals" title as requested */}
+          {/* Removed "Goals" title here as requested */}
         </div>
         
+        {/* Timeline area */}
         <div className="flex-1 bg-gray-50">
+          {/* Timeline header */}
           <TimelineHeader
             timeUnit={timeUnit}
             startDate={startDate}
             endDate={endDate}
-            hideDaysHeader={true} /* Hide day header as requested */
+            hideDaysHeader
           />
         </div>
       </div>
       
+      {/* Main content area with fixed height */}
       <div className="flex w-full" style={{height: `${timelineHeight}px`}}>
+        {/* Left - Fixed Goals List */}
         <div className="bg-white border-r min-w-[280px] max-w-[350px] w-[30%] h-full sticky left-0 z-10 overflow-y-auto">
           <GoalsList goals={goals} onToggleExpand={toggleGoalExpanded} />
         </div>
         
-        <div ref={containerRef} className="flex-1 overflow-hidden">
-          <div ref={timelineRef} className="h-full overflow-x-auto overflow-y-auto" style={{WebkitOverflowScrolling: "touch"}}>
+        {/* Right - Timeline container */}
+        <div 
+          ref={containerRef}
+          className="flex-1 overflow-hidden"
+        >
+          <div
+            ref={timelineRef}
+            className="h-full overflow-x-auto overflow-y-auto"
+            style={{
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
             <div className="min-w-[900px]">
+              {/* Timeline grid that scrolls with the content */}
               <div className="relative">
                 <TimelineGrid
                   goals={goals}
                   timeUnit={timeUnit}
                   startDate={startDate}
                   endDate={endDate}
-                  rowHeight={rowHeight}
                 />
               </div>
             </div>
@@ -168,4 +194,3 @@ const GanttChart = () => {
 };
 
 export default GanttChart;
-

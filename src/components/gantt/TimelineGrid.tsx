@@ -2,6 +2,7 @@
 import { 
   differenceInDays, 
   eachDayOfInterval,
+  isSameDay,
   isToday,
   isFirstDayOfMonth,
   isWeekend
@@ -13,10 +14,9 @@ interface TimelineGridProps {
   timeUnit: TimeUnit;
   startDate: Date;
   endDate: Date;
-  rowHeight?: number;
 }
 
-const TimelineGrid = ({ goals, timeUnit, startDate, endDate, rowHeight = 48 }: TimelineGridProps) => {
+const TimelineGrid = ({ goals, timeUnit, startDate, endDate }: TimelineGridProps) => {
   // Generate all days in the range for positioning
   const allDays = eachDayOfInterval({ start: startDate, end: endDate });
   const totalDays = differenceInDays(endDate, startDate) + 1;
@@ -46,7 +46,7 @@ const TimelineGrid = ({ goals, timeUnit, startDate, endDate, rowHeight = 48 }: T
     <div className="relative" style={{ width: `${totalDays * 30}px`, minHeight: "400px" }}>
       {/* Time grid (vertical lines) */}
       <div className="absolute inset-0 flex">
-        {allDays.map((day) => {
+        {allDays.map((day, index) => {
           const isCurrentDay = isToday(day);
           const dayIsWeekend = isWeekend(day);
           return (
@@ -61,7 +61,8 @@ const TimelineGrid = ({ goals, timeUnit, startDate, endDate, rowHeight = 48 }: T
                       ? 'border-l border-gray-100 bg-gray-50/50'
                       : 'border-l border-gray-100'
               }`}
-            />
+            >
+            </div>
           );
         })}
       </div>
@@ -69,9 +70,8 @@ const TimelineGrid = ({ goals, timeUnit, startDate, endDate, rowHeight = 48 }: T
       {/* Today indicator */}
       {allDays.some(day => isToday(day)) && (
         <div 
-          className="absolute border-l-2 border-blue-500 z-10"
+          className="absolute h-full border-l-2 border-blue-500 z-10"
           style={{
-            height: `${rowHeight}px`,
             left: `${differenceInDays(new Date(), startDate) * 30}px`,
             opacity: 0.7
           }}
@@ -80,12 +80,12 @@ const TimelineGrid = ({ goals, timeUnit, startDate, endDate, rowHeight = 48 }: T
       
       {/* Goals and milestones as colored bars */}
       <div className="relative w-full">
-        {goals.map((goal) => (
-          <div key={goal.id} className="relative" style={{ height: `${rowHeight}px` }}>
+        {goals.map((goal, goalIndex) => (
+          <div key={goal.id} className="relative">
             {/* Goal bar */}
-            <div className="h-full relative">
+            <div className="h-16 relative">
               <div 
-                className={`absolute h-[30px] mt-[9px] rounded-md ${goalColor} opacity-90 hover:opacity-100 transition-opacity shadow-sm`}
+                className={`absolute h-8 mt-4 rounded-md ${goalColor} opacity-90 hover:opacity-100 transition-opacity shadow-sm`}
                 style={calculateItemPosition(goal.startDate, goal.endDate)}
               >
                 <div className="absolute inset-0 flex items-center px-3 text-white text-xs font-medium overflow-hidden">
@@ -95,10 +95,10 @@ const TimelineGrid = ({ goals, timeUnit, startDate, endDate, rowHeight = 48 }: T
             </div>
             
             {/* Milestone bars (only if goal is expanded) */}
-            {goal.expanded && goal.milestones.map((milestone) => (
-              <div key={milestone.id} className="relative" style={{ height: `${rowHeight}px` }}>
+            {goal.expanded && goal.milestones.map((milestone, milestoneIndex) => (
+              <div key={milestone.id} className="h-16 relative">
                 <div
-                  className={`absolute h-[22px] mt-[13px] rounded-md ${milestoneColor} opacity-90 hover:opacity-100 transition-opacity shadow-sm`}
+                  className={`absolute h-6 mt-5 rounded-md ${milestoneColor} opacity-90 hover:opacity-100 transition-opacity shadow-sm`}
                   style={calculateItemPosition(milestone.startDate, milestone.endDate)}
                 >
                   <div className="absolute inset-0 flex items-center px-2 text-white text-xs font-medium overflow-hidden">

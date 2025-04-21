@@ -85,7 +85,7 @@ const TimelineGrid = ({ goals, timeUnit, startDate, endDate, rowHeight = 48 }: T
             {/* Goal bar */}
             <div className="h-full relative">
               <div 
-                className={`absolute h-[28px] mt-[10px] rounded-md ${goalColor} opacity-90 hover:opacity-100 transition-opacity shadow-sm`}
+                className={`absolute h-[30px] mt-[9px] rounded-md ${goalColor} opacity-90 hover:opacity-100 transition-opacity shadow-sm`}
                 style={calculateItemPosition(goal.startDate, goal.endDate)}
               >
                 <div className="absolute inset-0 flex items-center px-3 text-white text-xs font-medium overflow-hidden">
@@ -96,9 +96,9 @@ const TimelineGrid = ({ goals, timeUnit, startDate, endDate, rowHeight = 48 }: T
             
             {/* Milestone bars (only if goal is expanded) */}
             {goal.expanded && goal.milestones.map((milestone) => (
-              <div key={milestone.id} className="h-full relative" style={{ height: `${rowHeight}px` }}>
+              <div key={milestone.id} className="relative" style={{ height: `${rowHeight}px` }}>
                 <div
-                  className={`absolute h-[20px] mt-[14px] rounded-md ${milestoneColor} opacity-90 hover:opacity-100 transition-opacity shadow-sm`}
+                  className={`absolute h-[22px] mt-[13px] rounded-md ${milestoneColor} opacity-90 hover:opacity-100 transition-opacity shadow-sm`}
                   style={calculateItemPosition(milestone.startDate, milestone.endDate)}
                 >
                   <div className="absolute inset-0 flex items-center px-2 text-white text-xs font-medium overflow-hidden">
@@ -115,4 +115,3 @@ const TimelineGrid = ({ goals, timeUnit, startDate, endDate, rowHeight = 48 }: T
 };
 
 export default TimelineGrid;
-

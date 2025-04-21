@@ -2,6 +2,7 @@
 import { FC } from 'react';
 import { Search, ChevronDown, Plus } from 'lucide-react';
 import { Category, Calendar, Timer, Video, Setting2 } from 'iconsax-react';
+import { NavLink } from 'react-router-dom';
 
 interface SidebarProps {}
 
@@ -20,24 +21,39 @@ const Sidebar: FC<SidebarProps> = () => {
         </div>
 
         <div className="space-y-0.25">
-          <a href="#" className="flex items-center px-3 py-1 text-sm rounded-md hover:bg-gray-100">
+          <NavLink 
+            to="/" 
+            className={({isActive}) => 
+              `flex items-center px-3 py-1 text-sm rounded-md ${isActive ? 'bg-gray-100' : 'hover:bg-gray-100'}`
+            }
+          >
             <div className="mr-3 text-gray-500">
               <Category size={20} variant="Bulk" className="w-5 h-5" />
             </div>
             <span>Dashboard</span>
-          </a>
-          <a href="#" className="flex items-center px-3 py-1 text-sm rounded-md hover:bg-gray-100">
+          </NavLink>
+          <NavLink 
+            to="/rocks" 
+            className={({isActive}) => 
+              `flex items-center px-3 py-1 text-sm rounded-md ${isActive ? 'bg-gray-100' : 'hover:bg-gray-100'}`
+            }
+          >
             <div className="mr-3 text-gray-500">
               <Calendar size={20} variant="Bulk" className="w-5 h-5" />
             </div>
-            <span>Meetings</span>
-          </a>
-          <a href="#" className="flex items-center px-3 py-1 text-sm rounded-md hover:bg-gray-100">
+            <span>Rocks</span>
+          </NavLink>
+          <NavLink 
+            to="/meetings" 
+            className={({isActive}) => 
+              `flex items-center px-3 py-1 text-sm rounded-md ${isActive ? 'bg-gray-100' : 'hover:bg-gray-100'}`
+            }
+          >
             <div className="mr-3 text-gray-500">
               <Timer size={20} variant="Bulk" className="w-5 h-5" />
             </div>
             <span>Activity Timeline</span>
-          </a>
+          </NavLink>
           <a href="#" className="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-100">
             <div className="mr-3 text-gray-500">
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

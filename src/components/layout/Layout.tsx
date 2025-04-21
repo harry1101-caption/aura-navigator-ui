@@ -14,8 +14,8 @@ const Layout: FC<LayoutProps> = ({ children }) => {
       <Header />
       <Sidebar />
       <Subheader />
-      <main className="">
-        <div className="">
+      <main className="pt-28 pl-64">
+        <div className="p-6">
           {children}
         </div>
       </main>

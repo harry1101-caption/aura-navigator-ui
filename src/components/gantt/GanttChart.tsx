@@ -138,7 +138,7 @@ const GanttChart = () => {
       </div>
       
       {/* Main content area with fixed height */}
-      <div className="flex w-full" style={{height: `${timelineHeight}px`}}>
+      <div className="flex w-full pt-14" style={{height: `${timelineHeight}px`}}>
         {/* Left - Fixed Goals List */}
         <div className="bg-white border-r min-w-[280px] max-w-[350px] w-[30%] h-full sticky left-0 z-10 overflow-y-auto">
           <GoalsList goals={goals} onToggleExpand={toggleGoalExpanded} />
@@ -184,3 +184,4 @@ const GanttChart = () => {
 };
 
 export default GanttChart;
+

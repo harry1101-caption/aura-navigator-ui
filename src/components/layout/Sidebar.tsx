@@ -1,6 +1,7 @@
+
 import { FC } from 'react';
-import { Search, ChevronDown, Plus, Video } from 'lucide-react';
-import { Category, Calendar, Timer, Setting2 } from 'iconsax-react';
+import { Search, ChevronDown, Plus } from 'lucide-react';
+import { Category, Calendar, Timer, Video, Setting2 } from 'iconsax-react';
 
 interface SidebarProps {}
 
@@ -102,11 +103,15 @@ const Sidebar: FC<SidebarProps> = () => {
 
       <div className="absolute bottom-0 left-0 w-full border-t border-gray-200">
         <a href="#" className="flex items-center px-4 py-3 hover:bg-gray-100">
-          <Video className="w-5 h-5 mr-3 text-gray-500" />
+          <span className="mr-3 text-gray-500">
+            <Video size={20} variant="Bulk" className="w-5 h-5" />
+          </span>
           <span className="text-sm">Watch a video</span>
         </a>
         <a href="#" className="flex items-center px-4 py-3 hover:bg-gray-100">
-          <Setting2 className="w-5 h-5 mr-3 text-gray-500" />
+          <span className="mr-3 text-gray-500">
+            <Setting2 size={20} variant="Bulk" className="w-5 h-5" />
+          </span>
           <span className="text-sm">Settings</span>
         </a>
       </div>

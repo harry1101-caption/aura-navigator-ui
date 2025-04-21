@@ -25,21 +25,18 @@ const Sidebar: FC<SidebarProps> = () => {
             </div>
             <span>Dashboard</span>
           </a>
-
           <a href="#" className="flex items-center px-3 py-1 text-sm rounded-md hover:bg-gray-100">
             <div className="mr-3 text-gray-500">
               <Calendar size={20} variant="Bulk" className="w-5 h-5" />
             </div>
             <span>Meetings</span>
           </a>
-
           <a href="#" className="flex items-center px-3 py-1 text-sm rounded-md hover:bg-gray-100">
             <div className="mr-3 text-gray-500">
               <Timer size={20} variant="Bulk" className="w-5 h-5" />
             </div>
             <span>Activity Timeline</span>
           </a>
-
           <a href="#" className="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-100">
             <div className="mr-3 text-gray-500">
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,7 +47,7 @@ const Sidebar: FC<SidebarProps> = () => {
           </a>
         </div>
 
-        <div className="mt-6">
+        <div className="pt-2 pb-1">
           <div className="flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-500">
             <div className="flex items-center">
               <ChevronDown className="w-4 h-4 mr-2" />
@@ -60,23 +57,19 @@ const Sidebar: FC<SidebarProps> = () => {
               <Search className="w-4 h-4 text-gray-400" />
             </button>
           </div>
-
-          <div className="mt-2 space-y-1">
+          <div className="space-y-1">
             <a href="#" className="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-100">
               <div className="w-4 h-4 mr-3 rounded bg-red-300"></div>
               <span>Leadership Team</span>
             </a>
-
             <a href="#" className="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-100">
               <div className="w-4 h-4 mr-3 rounded bg-blue-300"></div>
               <span>Product Team</span>
             </a>
-
             <a href="#" className="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-100">
               <div className="w-4 h-4 mr-3 rounded bg-green-300"></div>
               <span>Sales Team</span>
             </a>
-
             <a href="#" className="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-100">
               <div className="mr-3 text-gray-400">
                 <Plus className="w-4 h-4" />
@@ -86,7 +79,7 @@ const Sidebar: FC<SidebarProps> = () => {
           </div>
         </div>
 
-        <div className="mt-4">
+        <div className="pt-1 pb-1">
           <div className="flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-500">
             <div className="flex items-center">
               <ChevronDown className="w-4 h-4 mr-2" />
@@ -96,8 +89,7 @@ const Sidebar: FC<SidebarProps> = () => {
               <Search className="w-4 h-4 text-gray-400" />
             </button>
           </div>
-
-          <div className="mt-2 space-y-1">
+          <div className="space-y-1">
             <a href="#" className="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-100">
               <div className="mr-3 text-gray-400">
                 <Plus className="w-4 h-4" />

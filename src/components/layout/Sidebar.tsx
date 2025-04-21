@@ -1,7 +1,7 @@
 
 import { FC } from 'react';
 import { Search, ChevronDown, Plus, Video } from 'lucide-react';
-import { Frame, Setting2 } from 'iconsax-react';
+import { Element3, Setting2 } from 'iconsax-react';
 
 interface SidebarProps {}
 
@@ -22,21 +22,21 @@ const Sidebar: FC<SidebarProps> = () => {
         <div className="space-y-0.5">
           <a href="#" className="flex items-center px-3 py-1.5 text-sm rounded-md hover:bg-gray-100">
             <div className="mr-3 text-gray-500">
-              <Frame size={20} variant="Outline" className="w-5 h-5" />
+              <Element3 size={20} variant="Outline" className="w-5 h-5" />
             </div>
             <span>Dashboard</span>
           </a>
           
           <a href="#" className="flex items-center px-3 py-1.5 text-sm rounded-md hover:bg-gray-100">
             <div className="mr-3 text-gray-500">
-              <Frame size={20} variant="Outline" className="w-5 h-5" />
+              <Element3 size={20} variant="Outline" className="w-5 h-5" />
             </div>
             <span>Meetings</span>
           </a>
           
           <a href="#" className="flex items-center px-3 py-1.5 text-sm rounded-md hover:bg-gray-100">
             <div className="mr-3 text-gray-500">
-              <Frame size={20} variant="Outline" className="w-5 h-5" />
+              <Element3 size={20} variant="Outline" className="w-5 h-5" />
             </div>
             <span>Activity Timeline</span>
           </a>

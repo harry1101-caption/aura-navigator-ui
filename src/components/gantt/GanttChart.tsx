@@ -93,7 +93,7 @@ const GanttChart = () => {
   const timelineHeight = Math.max(400, goalsCount * rowHeight); // minimum height of 400px
 
   return (
-    <div className="border rounded-lg bg-white overflow-hidden">
+    <div className="border rounded-lg bg-white overflow-hidden mt-4">
       {/* Header with controls */}
       <div className="p-4 border-b flex flex-wrap justify-between items-center gap-4">
         <Tabs
@@ -137,6 +137,24 @@ const GanttChart = () => {
         </div>
       </div>
       
+      {/* Goals and Timeline Labels */}
+      <div className="flex border-b">
+        {/* Goals column label */}
+        <div className="bg-gray-50 min-w-[280px] max-w-[350px] w-[30%] py-3 px-4 font-medium text-gray-700 text-sm border-r">
+          Goals
+        </div>
+        
+        {/* Timeline area */}
+        <div className="flex-1 bg-gray-50">
+          {/* Timeline header */}
+          <TimelineHeader
+            timeUnit={timeUnit}
+            startDate={startDate}
+            endDate={endDate}
+          />
+        </div>
+      </div>
+      
       {/* Main content area with fixed height */}
       <div className="flex w-full" style={{height: `${timelineHeight}px`}}>
         {/* Left - Fixed Goals List */}
@@ -157,15 +175,6 @@ const GanttChart = () => {
             }}
           >
             <div className="min-w-[900px]">
-              {/* Timeline header that stays fixed at top while vertical scrolling */}
-              <div className="sticky top-0 z-10 bg-white shadow-sm">
-                <TimelineHeader
-                  timeUnit={timeUnit}
-                  startDate={startDate}
-                  endDate={endDate}
-                />
-              </div>
-              
               {/* Timeline grid that scrolls with the content */}
               <div className="relative">
                 <TimelineGrid

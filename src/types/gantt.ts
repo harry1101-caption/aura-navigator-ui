@@ -4,7 +4,6 @@ export type TimeUnit = "weeks" | "months";
 export interface Milestone {
   id: string;
   title: string;
-  progress: number;
   startDate: Date;
   endDate: Date;
 }
@@ -16,7 +15,6 @@ export interface Goal {
     name: string;
     avatar: string;
   };
-  progress: number;
   startDate: Date;
   endDate: Date;
   expanded: boolean;

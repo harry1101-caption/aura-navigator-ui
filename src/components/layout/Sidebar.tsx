@@ -1,7 +1,6 @@
-
 import { FC } from 'react';
 import { Search, ChevronDown, Plus, Video } from 'lucide-react';
-import { Element3, Setting2 } from 'iconsax-react';
+import { Category, Calendar, Timer, Setting2 } from 'iconsax-react';
 
 interface SidebarProps {}
 
@@ -18,29 +17,29 @@ const Sidebar: FC<SidebarProps> = () => {
           />
           <span className="absolute right-3 top-2.5 text-xs text-gray-400">⌘ k</span>
         </div>
-        
-        <div className="space-y-0.5">
-          <a href="#" className="flex items-center px-3 py-1.5 text-sm rounded-md hover:bg-gray-100">
+
+        <div className="space-y-0.25">
+          <a href="#" className="flex items-center px-3 py-1 text-sm rounded-md hover:bg-gray-100">
             <div className="mr-3 text-gray-500">
-              <Element3 size={20} variant="Outline" className="w-5 h-5" />
+              <Category size={20} variant="Bulk" className="w-5 h-5" />
             </div>
             <span>Dashboard</span>
           </a>
-          
-          <a href="#" className="flex items-center px-3 py-1.5 text-sm rounded-md hover:bg-gray-100">
+
+          <a href="#" className="flex items-center px-3 py-1 text-sm rounded-md hover:bg-gray-100">
             <div className="mr-3 text-gray-500">
-              <Element3 size={20} variant="Outline" className="w-5 h-5" />
+              <Calendar size={20} variant="Bulk" className="w-5 h-5" />
             </div>
             <span>Meetings</span>
           </a>
-          
-          <a href="#" className="flex items-center px-3 py-1.5 text-sm rounded-md hover:bg-gray-100">
+
+          <a href="#" className="flex items-center px-3 py-1 text-sm rounded-md hover:bg-gray-100">
             <div className="mr-3 text-gray-500">
-              <Element3 size={20} variant="Outline" className="w-5 h-5" />
+              <Timer size={20} variant="Bulk" className="w-5 h-5" />
             </div>
             <span>Activity Timeline</span>
           </a>
-          
+
           <a href="#" className="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-100">
             <div className="mr-3 text-gray-500">
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,7 +49,7 @@ const Sidebar: FC<SidebarProps> = () => {
             <span>More</span>
           </a>
         </div>
-        
+
         <div className="mt-6">
           <div className="flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-500">
             <div className="flex items-center">
@@ -61,23 +60,23 @@ const Sidebar: FC<SidebarProps> = () => {
               <Search className="w-4 h-4 text-gray-400" />
             </button>
           </div>
-          
+
           <div className="mt-2 space-y-1">
             <a href="#" className="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-100">
               <div className="w-4 h-4 mr-3 rounded bg-red-300"></div>
               <span>Leadership Team</span>
             </a>
-            
+
             <a href="#" className="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-100">
               <div className="w-4 h-4 mr-3 rounded bg-blue-300"></div>
               <span>Product Team</span>
             </a>
-            
+
             <a href="#" className="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-100">
               <div className="w-4 h-4 mr-3 rounded bg-green-300"></div>
               <span>Sales Team</span>
             </a>
-            
+
             <a href="#" className="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-100">
               <div className="mr-3 text-gray-400">
                 <Plus className="w-4 h-4" />
@@ -86,7 +85,7 @@ const Sidebar: FC<SidebarProps> = () => {
             </a>
           </div>
         </div>
-        
+
         <div className="mt-4">
           <div className="flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-500">
             <div className="flex items-center">
@@ -97,7 +96,7 @@ const Sidebar: FC<SidebarProps> = () => {
               <Search className="w-4 h-4 text-gray-400" />
             </button>
           </div>
-          
+
           <div className="mt-2 space-y-1">
             <a href="#" className="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-100">
               <div className="mr-3 text-gray-400">
@@ -108,7 +107,7 @@ const Sidebar: FC<SidebarProps> = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="absolute bottom-0 left-0 w-full border-t border-gray-200">
         <a href="#" className="flex items-center px-4 py-3 hover:bg-gray-100">
           <Video className="w-5 h-5 mr-3 text-gray-500" />

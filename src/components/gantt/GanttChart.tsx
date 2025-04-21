@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import TimelineHeader from "./TimelineHeader";
 import GoalsList from "./GoalsList";
 import TimelineGrid from "./TimelineGrid";
@@ -52,13 +53,15 @@ const GanttChart = () => {
         <div className="w-1/3 min-w-[350px] border-r">
           <GoalsList goals={goals} onToggleExpand={toggleGoalExpanded} />
         </div>
-        <div className="w-2/3 overflow-x-auto">
-          <TimelineGrid 
-            goals={goals} 
-            timeUnit={timeUnit} 
-            startDate={startDate} 
-            endDate={endDate} 
-          />
+        <div className="w-2/3 overflow-hidden">
+          <ScrollArea className="h-full" orientation="horizontal">
+            <TimelineGrid 
+              goals={goals} 
+              timeUnit={timeUnit} 
+              startDate={startDate} 
+              endDate={endDate} 
+            />
+          </ScrollArea>
         </div>
       </div>
     </div>

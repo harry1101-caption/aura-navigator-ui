@@ -2,7 +2,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
 import TimelineHeader from "./TimelineHeader";
 import GoalsList from "./GoalsList";
@@ -15,34 +14,34 @@ const GanttChart = () => {
   const [goals, setGoals] = useState<Goal[]>(mockGoals);
   const timelineRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   // Calculate dates based on goals data
   const calculateDateRange = () => {
     let minDate = new Date();
     let maxDate = new Date();
-    
+
     goals.forEach(goal => {
       if (goal.startDate < minDate) minDate = goal.startDate;
       if (goal.endDate > maxDate) maxDate = goal.endDate;
-      
+
       goal.milestones.forEach(milestone => {
         if (milestone.startDate < minDate) minDate = milestone.startDate;
         if (milestone.endDate > maxDate) maxDate = milestone.endDate;
       });
     });
-    
+
     // Add padding (2 weeks before and after)
     const paddedMinDate = new Date(minDate);
     paddedMinDate.setDate(paddedMinDate.getDate() - 14);
-    
+
     const paddedMaxDate = new Date(maxDate);
     paddedMaxDate.setDate(paddedMaxDate.getDate() + 14);
-    
+
     return { startDate: paddedMinDate, endDate: paddedMaxDate };
   };
-  
+
   const { startDate, endDate } = calculateDateRange();
-  
+
   // Scroll to center of timeline (where today is) on initial render
   useEffect(() => {
     if (timelineRef.current && containerRef.current) {
@@ -50,20 +49,20 @@ const GanttChart = () => {
       const today = new Date();
       const totalDays = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
       const daysSinceStart = Math.round((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-      
+
       // Calculate the position as a percentage and scroll there
       const scrollPosition = (daysSinceStart / totalDays) * timelineRef.current.scrollWidth;
-      
+
       // Center "today" in the viewport
       const centerPosition = Math.max(0, scrollPosition - containerRef.current.clientWidth / 2);
       timelineRef.current.scrollLeft = centerPosition;
     }
   }, [timeUnit, startDate, endDate]);
-  
+
   const toggleGoalExpanded = (goalId: string) => {
-    setGoals(goals.map(goal => 
-      goal.id === goalId 
-        ? { ...goal, expanded: !goal.expanded } 
+    setGoals(goals.map(goal =>
+      goal.id === goalId
+        ? { ...goal, expanded: !goal.expanded }
         : goal
     ));
   };
@@ -74,13 +73,13 @@ const GanttChart = () => {
       timelineRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
   };
-  
+
   const scrollToToday = () => {
     if (timelineRef.current) {
       const today = new Date();
       const totalDays = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
       const daysSinceStart = Math.round((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-      
+
       // Calculate the position as a percentage and scroll there
       const scrollPosition = (daysSinceStart / totalDays) * timelineRef.current.scrollWidth;
       timelineRef.current.scrollTo({ left: scrollPosition - 200, behavior: "smooth" });
@@ -94,56 +93,18 @@ const GanttChart = () => {
 
   return (
     <div className="border rounded-lg bg-white overflow-hidden mt-4">
-      {/* Header with controls */}
+      {/* Header with controls - controls removed */}
       <div className="p-4 border-b flex flex-wrap justify-between items-center gap-4">
-        <Tabs
-          defaultValue="weeks"
-          className="w-auto"
-          onValueChange={(value: TimeUnit) => setTimeUnit(value)}
-        >
-          <TabsList>
-            <TabsTrigger value="weeks">Weeks</TabsTrigger>
-            <TabsTrigger value="months">Months</TabsTrigger>
-          </TabsList>
-        </Tabs>
-        
-        <div className="flex items-center space-x-2">
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={() => scrollTimeline("left")}
-          >
-            <ChevronLeft className="h-4 w-4" />
-            <span className="sr-only">Scroll left</span>
-          </Button>
-          
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={scrollToToday}
-          >
-            <Calendar className="h-4 w-4 mr-1" />
-            <span className="hidden sm:inline">Today</span>
-          </Button>
-          
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={() => scrollTimeline("right")}
-          >
-            <ChevronRight className="h-4 w-4" />
-            <span className="sr-only">Scroll right</span>
-          </Button>
-        </div>
+        {/* NO TABS, NO TODAY BUTTON */}
       </div>
-      
+
       {/* Goals and Timeline Labels */}
       <div className="flex border-b">
         {/* Left goals list column - no title */}
         <div className="bg-gray-50 min-w-[280px] max-w-[350px] w-[30%] py-3 px-4 font-medium text-gray-700 text-sm border-r">
           {/* Removed "Goals" title here as requested */}
         </div>
-        
+
         {/* Timeline area */}
         <div className="flex-1 bg-gray-50">
           {/* Timeline header */}
@@ -155,24 +116,26 @@ const GanttChart = () => {
           />
         </div>
       </div>
-      
+
       {/* Main content area with fixed height */}
-      <div className="flex w-full" style={{height: `${timelineHeight}px`}}>
+      <div className="flex w-full relative" style={{ height: `${timelineHeight}px` }}>
         {/* Left - Fixed Goals List */}
         <div className="bg-white border-r min-w-[280px] max-w-[350px] w-[30%] h-full sticky left-0 z-10 overflow-y-auto">
           <GoalsList goals={goals} onToggleExpand={toggleGoalExpanded} />
         </div>
-        
+
         {/* Right - Timeline container */}
-        <div 
+        <div
           ref={containerRef}
           className="flex-1 overflow-hidden"
+          style={{ position: "relative" }}
         >
           <div
             ref={timelineRef}
             className="h-full overflow-x-auto overflow-y-auto"
             style={{
               WebkitOverflowScrolling: "touch",
+              position: "relative"
             }}
           >
             <div className="min-w-[900px]">
@@ -186,6 +149,35 @@ const GanttChart = () => {
                 />
               </div>
             </div>
+            {/* Floating bottom-right controls */}
+            <div
+              className="fixed z-20 flex flex-row items-center gap-2 p-2 rounded-lg bg-white/90 border shadow-xl"
+              style={{
+                bottom: "28px",
+                right: "40px"
+              }}
+            >
+              <Tabs
+                value={timeUnit}
+                className="w-auto"
+                onValueChange={(value: TimeUnit) => setTimeUnit(value)}
+              >
+                <TabsList>
+                  <TabsTrigger value="weeks">Weeks</TabsTrigger>
+                  <TabsTrigger value="months">Months</TabsTrigger>
+                </TabsList>
+              </Tabs>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={scrollToToday}
+                className="ml-2"
+              >
+                <Calendar className="h-4 w-4 mr-1" />
+                <span className="hidden sm:inline">Today</span>
+              </Button>
+            </div>
+            {/* END Floating controls */}
           </div>
         </div>
       </div>

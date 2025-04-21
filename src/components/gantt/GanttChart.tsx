@@ -32,29 +32,25 @@ const GanttChart = () => {
           onValueChange={(value: TimeUnit) => setTimeUnit(value)}
         >
           <TabsList>
-            <TabsTrigger 
-              value="weeks"
-            >
-              Weeks
-            </TabsTrigger>
-            <TabsTrigger 
-              value="months"
-            >
-              Months
-            </TabsTrigger>
+            <TabsTrigger value="weeks">Weeks</TabsTrigger>
+            <TabsTrigger value="months">Months</TabsTrigger>
           </TabsList>
         </Tabs>
-        <div className="flex-1 min-w-0 w-full sm:w-auto sm:ml-4">
-          <TimelineHeader timeUnit={timeUnit} startDate={startDate} endDate={endDate} />
-        </div>
+        <div className="flex-1 min-w-0 w-full sm:w-auto sm:ml-4" />
       </div>
-      
       <div className="flex">
-        <div className="w-1/3 min-w-[350px] border-r">
+        {/* Left Goals List (sticky, does not scroll horizontally) */}
+        <div className="w-1/3 min-w-[350px] border-r bg-white" style={{zIndex: 10}}>
           <GoalsList goals={goals} onToggleExpand={toggleGoalExpanded} />
         </div>
-        <div className="w-2/3 overflow-hidden">
-          <ScrollArea className="h-full" orientation="horizontal">
+        {/* Timeline Header and Grid in a synced horizontal ScrollArea */}
+        <div className="w-2/3 overflow-x-auto">
+          <ScrollArea orientation="horizontal" className="h-full">
+            {/* Sticky header */}
+            <div>
+              <TimelineHeader timeUnit={timeUnit} startDate={startDate} endDate={endDate} />
+            </div>
+            {/* Timeline Grid */}
             <TimelineGrid 
               goals={goals} 
               timeUnit={timeUnit} 

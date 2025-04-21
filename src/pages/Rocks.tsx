@@ -5,7 +5,7 @@ import GanttChart from "@/components/gantt/GanttChart";
 const RocksPage = () => {
   return (
     <Layout>
-      <div className="mx-auto w-full max-w-[1400px] px-2 py-4">
+      <div className="mx-auto w-full max-w-[1400px] px-4 py-3">
         <GanttChart />
       </div>
     </Layout>
